@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 OpenClaw 監控 Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-primary: #3b82f6;
+            --accent-success: #22c55e;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --border-color: #475569;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1a2e 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--accent-primary), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-online {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--accent-success);
+            border: 1px solid var(--accent-success);
+        }
+
+        .status-offline {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-danger);
+            border: 1px solid var(--accent-danger);
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .last-update {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .icon-gateway { background: rgba(59, 130, 246, 0.2); }
+        .icon-resources { background: rgba(139, 92, 246, 0.2); }
+        .icon-tasks { background: rgba(245, 158, 11, 0.2); }
+        .icon-workers { background: rgba(34, 197, 94, 0.2); }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-card);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-low { background: var(--accent-success); }
+        .progress-medium { background: var(--accent-warning); }
+        .progress-high { background: var(--accent-danger); }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .stat-pending { color: var(--accent-warning); }
+        .stat-running { color: var(--accent-primary); }
+        .stat-completed { color: var(--accent-success); }
+
+        .worker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .worker-card {
+            background: var(--bg-card);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .worker-card:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .worker-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .worker-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .worker-status {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--accent-success);
+        }
+
+        .status-idle {
+            background: rgba(148, 163, 184, 0.2);
+            color: var(--text-secondary);
+        }
+
+        .status-busy {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-warning);
+        }
+
+        .chart-container {
+            height: 200px;
+            margin-top: 15px;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--accent-danger);
+            color: var(--accent-danger);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .task-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: var(--bg-card);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .task-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .task-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-pending { background: var(--accent-warning); }
+        .dot-running { background: var(--accent-primary); }
+        .dot-completed { background: var(--accent-success); }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .worker-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .auto-refresh-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .refresh-timer {
+            width: 20px;
+            height: 20px;
+            position: relative;
+        }
+
+        .refresh-timer svg {
+            transform: rotate(-90deg);
+        }
+
+        .refresh-timer circle {
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .refresh-timer .bg {
+            stroke: var(--bg-card);
+        }
+
+        .refresh-timer .progress {
+            stroke: var(--accent-primary);
+            stroke-dasharray: 56.5;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span style="font-size: 2rem;">🔧</span>
+                <h1>OpenClaw 監控中心</h1>
+            </div>
+            <div class="controls">
+                <div class="auto-refresh-indicator">
+                    <div class="refresh-timer">
+                        <svg width="20" height="20">
+                            <circle class="bg" cx="10" cy="10" r="9"></circle>
+                            <circle class="progress" id="refreshProgress" cx="10" cy="10" r="9"></circle>
+                        </svg>
+                    </div>
+                    <span>30s</span>
+                </div>
+                <button class="btn btn-primary" id="refreshBtn" onclick="loadData()">
+                    🔄 重新整理
+                </button>
+                <button class="btn btn-secondary" id="autoRefreshBtn" onclick="toggleAutoRefresh()">
+                    ⏸️ 暫停
+                </button>
+            </div>
+        </header>
+
+        <div id="errorContainer" style="display: none;" class="error"></div>
+
+        <div class="grid">
+            <!-- Gateway Status Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon icon-gateway">🌐</span>
+                        Gateway 狀態
+                    </div>
+                    <span id="gatewayStatus" class="status-badge status-online">載入中...</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Port</span>
+                    <span class="info-value" id="gatewayPort">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Process</span>
+                    <span class="info-value" id="gatewayProcess">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">版本</span>
+                    <span class="info-value" id="gatewayVersion">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">運行時間</span>
+                    <span class="info-value" id="gatewayUptime">-</span>
+                </div>
+            </div>
+
+            <!-- Resources Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon icon-resources">📊</span>
+                        資源使用
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">工具並行數</span>
+                    <span class="info-value" id="concurrentTools">-</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-low" id="toolsProgress" style="width: 0%"></div>
+                </div>
+                <div class="info-row" style="margin-top: 15px;">
+                    <span class="info-label">Active Sessions</span>
+                    <span class="info-value" id="activeSessions">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">最大並行</span>
+                    <span class="info-value" id="maxConcurrent">-</span>
+                </div>
+            </div>
+
+            <!-- Tasks Board Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon icon-tasks">📋</span>
+                        任務看板
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value stat-pending" id="pendingCount">-</div>
+                        <div class="stat-label">待處理</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value stat-running" id="runningCount">-</div>
+                        <div class="stat-label">進行中</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value stat-completed" id="completedCount">-</div>
+                        <div class="stat-label">已完成</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <div class="info-label" style="margin-bottom: 8px;">進行中任務</div>
+                    <div class="task-list" id="runningTasks">
+                        <div class="loading">載入中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workers Status Card -->
+            <div class="card" style="grid-column: span 2;">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon icon-workers">👥</span>
+                        Worker 狀態
+                    </div>
+                    <span class="last-update" id="workersLastUpdate">-</span>
+                </div>
+                <div class="worker-grid" id="workersGrid">
+                    <div class="loading"><div class="spinner"></div>載入中...</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>最後更新: <span id="footerLastUpdate">-</span></p>
+            <p style="margin-top: 5px; font-size: 0.75rem;">OpenClaw Monitor Dashboard v1.0</p>
+        </footer>
+    </div>
+
+    <script>
+        // Chart.js minimal implementation for simple charts
+        class SimpleChart {
+            constructor(canvas, type, data, options = {}) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.type = type;
+                this.data = data;
+                this.options = options;
+                this.draw();
+            }
+
+            draw() {
+                const { width, height } = this.canvas;
+                this.ctx.clearRect(0, 0, width, height);
+                
+                if (this.type === 'doughnut') {
+                    this.drawDoughnut(width, height);
+                } else if (this.type === 'bar') {
+                    this.drawBar(width, height);
+                }
+            }
+
+            drawDoughnut(width, height) {
+                const centerX = width / 2;
+                const centerY = height / 2;
+                const radius = Math.min(width, height) / 2 - 20;
+                const datasets = this.data.datasets[0].data;
+                const colors = this.data.datasets[0].backgroundColor;
+                const labels = this.data.labels;
+                
+                let total = datasets.reduce((a, b) => a + b, 0);
+                let currentAngle = -Math.PI / 2;
+
+                datasets.forEach((value, i) => {
+                    const sliceAngle = (value / total) * 2 * Math.PI;
+                    
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(centerX, centerY);
+                    this.ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+                    this.ctx.closePath();
+                    this.ctx.fillStyle = colors[i];
+                    this.ctx.fill();
+                    
+                    currentAngle += sliceAngle;
+                });
+
+                // Inner circle for doughnut effect
+                this.ctx.beginPath();
+                this.ctx.arc(centerX, centerY, radius * 0.6, 0, 2 * Math.PI);
+                this.ctx.fillStyle = '#1e293b';
+                this.ctx.fill();
+
+                // Center text
+                this.ctx.fillStyle = '#f1f5f9';
+                this.ctx.font = 'bold 24px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(total.toString(), centerX, centerY);
+            }
+
+            drawBar(width, height) {
+                const padding = 30;
+                const chartWidth = width - padding * 2;
+                const chartHeight = height - padding * 2;
+                const datasets = this.data.datasets[0].data;
+                const labels = this.data.labels;
+                const colors = this.data.datasets[0].backgroundColor;
+                
+                const maxValue = Math.max(...datasets);
+                const barWidth = chartWidth / datasets.length * 0.6;
+                const spacing = chartWidth / datasets.length;
+
+                datasets.forEach((value, i) => {
+                    const barHeight = (value / maxValue) * chartHeight;
+                    const x = padding + i * spacing + (spacing - barWidth) / 2;
+                    const y = height - padding - barHeight;
+
+                    this.ctx.fillStyle = colors[i] || '#3b82f6';
+                    this.ctx.fillRect(x, y, barWidth, barHeight);
+
+                    // Label
+                    this.ctx.fillStyle = '#94a3b8';
+                    this.ctx.font = '12px sans-serif';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.fillText(labels[i], x + barWidth / 2, height - padding + 15);
+                });
+            }
+        }
+
+        // Dashboard state
+        let autoRefresh = true;
+        let refreshInterval = null;
+        let countdownInterval = null;
+        let countdown = 30;
+        const REFRESH_SECONDS = 30;
+
+        // Worker role definitions
+        const WORKER_ROLES = [
+            { id: 'supervisor', name: 'Supervisor', emoji: '👑' },
+            { id: 'frontdesk', name: 'FrontDesk', emoji: '🎫' },
+            { id: 'dev', name: 'Dev', emoji: '💻' },
+            { id: 'auto', name: 'Auto', emoji: '🤖' },
+            { id: 'editor', name: 'Editor', emoji: '✍️' },
+            { id: 'research', name: 'Research', emoji: '🔬' },
+            { id: 'opsdata', name: 'OpsData', emoji: '📊' },
+            { id: 'sre', name: 'SRE', emoji: '🔧' }
+        ];
+
+        // Format timestamp
+        function formatTime(timestamp) {
+            if (!timestamp) return '-';
+            const date = new Date(timestamp);
+            return date.toLocaleString('zh-TW', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        // Format duration
+        function formatDuration(seconds) {
+            if (!seconds || seconds < 0) return '-';
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            
+            if (hours > 0) {
+                return `${hours}h ${minutes}m ${secs}s`;
+            } else if (minutes > 0) {
+                return `${minutes}m ${secs}s`;
+            } else {
+                return `${secs}s`;
+            }
+        }
+
+        // Get progress color class
+        function getProgressClass(percentage) {
+            if (percentage < 50) return 'progress-low';
+            if (percentage < 80) return 'progress-medium';
+            return 'progress-high';
+        }
+
+        // Update refresh timer visual
+        function updateRefreshTimer() {
+            const progress = document.getElementById('refreshProgress');
+            const offset = 56.5 * (1 - countdown / REFRESH_SECONDS);
+            progress.style.strokeDashoffset = offset;
+        }
+
+        // Load data from JSON
+        async function loadData() {
+            const refreshBtn = document.getElementById('refreshBtn');
+            const errorContainer = document.getElementById('errorContainer');
+            
+            refreshBtn.disabled = true;
+            refreshBtn.innerHTML = '<div class="spinner" style="width: 16px; height: 16px; border-width: 2px;"></div> 載入中...';
+            errorContainer.style.display = 'none';
+
+            try {
+                const response = await fetch('data/status.json?t=' + Date.now());
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+                updateDashboard(data);
+                countdown = REFRESH_SECONDS;
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                errorContainer.textContent = `❌ 載入失敗: ${error.message}`;
+                errorContainer.style.display = 'block';
+            } finally {
+                refreshBtn.disabled = false;
+                refreshBtn.innerHTML = '🔄 重新整理';
+            }
+        }
+
+        // Update dashboard with data
+        function updateDashboard(data) {
+            // Gateway status
+            if (data.gateway) {
+                const gw = data.gateway;
+                const statusEl = document.getElementById('gatewayStatus');
+                statusEl.textContent = gw.status === 'online' ? '運行中' : '離線';
+                statusEl.className = `status-badge ${gw.status === 'online' ? 'status-online' : 'status-offline'}`;
+                
+                document.getElementById('gatewayPort').textContent = gw.port || '-';
+                document.getElementById('gatewayProcess').textContent = gw.process || '-';
+                document.getElementById('gatewayVersion').textContent = gw.version || '-';
+                document.getElementById('gatewayUptime').textContent = formatDuration(gw.uptime);
+            }
+
+            // Resources
+            if (data.resources) {
+                const res = data.resources;
+                const current = res.concurrent_tools || 0;
+                const max = res.max_concurrent || 2;
+                const percentage = (current / max) * 100;
+                
+                document.getElementById('concurrentTools').textContent = `${current}/${max}`;
+                document.getElementById('activeSessions').textContent = res.active_sessions || 0;
+                document.getElementById('maxConcurrent').textContent = max;
+                
+                const progressEl = document.getElementById('toolsProgress');
+                progressEl.style.width = `${percentage}%`;
+                progressEl.className = `progress-fill ${getProgressClass(percentage)}`;
+            }
+
+            // Tasks
+            if (data.tasks) {
+                const tasks = data.tasks;
+                const pending = (tasks.pending || []).length;
+                const running = (tasks.running || []).length;
+                const completed = (tasks.completed || []).length;
+                
+                document.getElementById('pendingCount').textContent = pending;
+                document.getElementById('runningCount').textContent = running;
+                document.getElementById('completedCount').textContent = completed;
+
+                // Running tasks list
+                const runningContainer = document.getElementById('runningTasks');
+                if (running === 0) {
+                    runningContainer.innerHTML = '<div style="text-align: center; color: var(--text-secondary); padding: 20px;">暫無進行中任務</div>';
+                } else {
+                    runningContainer.innerHTML = tasks.running.map(task => `
+                        <div class="task-item">
+                            <div class="task-dot dot-running"></div>
+                            <span>${task.name || task.id || '未知任務'}</span>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            // Workers
+            if (data.workers) {
+                const workersContainer = document.getElementById('workersGrid');
+                const workersData = data.workers;
+                
+                workersContainer.innerHTML = WORKER_ROLES.map(role => {
+                    const worker = workersData[role.id] || {};
+                    const status = worker.status || 'idle';
+                    const statusClass = status === 'active' ? 'status-active' : 
+                                       status === 'busy' ? 'status-busy' : 'status-idle';
+                    const statusText = status === 'active' ? '活躍' : 
+                                      status === 'busy' ? '忙碌' : '閒置';
+                    
+                    return `
+                        <div class="worker-card">
+                            <div class="worker-emoji">${role.emoji}</div>
+                            <div class="worker-name">${role.name}</div>
+                            <span class="worker-status ${statusClass}">${statusText}</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Last update
+            const lastUpdate = data.last_update ? formatTime(data.last_update) : formatTime(Date.now());
+            document.getElementById('footerLastUpdate').textContent = lastUpdate;
+            document.getElementById('workersLastUpdate').textContent = lastUpdate;
+        }
+
+        // Toggle auto refresh
+        function toggleAutoRefresh() {
+            autoRefresh = !autoRefresh;
+            const btn = document.getElementById('autoRefreshBtn');
+            
+            if (autoRefresh) {
+                btn.innerHTML = '⏸️ 暫停';
+                startAutoRefresh();
+            } else {
+                btn.innerHTML = '▶️ 繼續';
+                stopAutoRefresh();
+            }
+        }
+
+        // Start auto refresh
+        function startAutoRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            countdown = REFRESH_SECONDS;
+            updateRefreshTimer();
+            
+            countdownInterval = setInterval(() => {
+                if (autoRefresh) {
+                    countdown--;
+                    updateRefreshTimer();
+                    if (countdown <= 0) {
+                        countdown = REFRESH_SECONDS;
+                    }
+                }
+            }, 1000);
+            
+            refreshInterval = setInterval(() => {
+                if (autoRefresh) {
+                    loadData();
+                }
+            }, REFRESH_SECONDS * 1000);
+        }
+
+        // Stop auto refresh
+        function stopAutoRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+                refreshInterval = null;
+            }
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            startAutoRefresh();
+        });
+
+        // Handle visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Pause when tab is hidden to save resources
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+            } else {
+                // Resume when tab is visible
+                if (autoRefresh && !countdownInterval) {
+                    startAutoRefresh();
+                    loadData();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

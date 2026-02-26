@@ -1,0 +1,93 @@
+{
+  "gateway": {
+    "status": "online",
+    "port": 7331,
+    "process": "openclaw-gateway",
+    "version": "2.5.1",
+    "uptime": 86452
+  },
+  "resources": {
+    "concurrent_tools": 1,
+    "max_concurrent": 2,
+    "active_sessions": 3
+  },
+  "tasks": {
+    "pending": [
+      {
+        "id": "task-003",
+        "name": "資料備份",
+        "type": "backup",
+        "priority": "normal",
+        "created_at": "2026-02-27T04:25:00Z"
+      },
+      {
+        "id": "task-004",
+        "name": "系統更新檢查",
+        "type": "maintenance",
+        "priority": "low",
+        "created_at": "2026-02-27T04:20:00Z"
+      }
+    ],
+    "running": [
+      {
+        "id": "task-001",
+        "name": "監控 Dashboard 更新",
+        "type": "development",
+        "agent": "dev",
+        "started_at": "2026-02-27T04:30:00Z"
+      }
+    ],
+    "completed": [
+      {
+        "id": "task-000",
+        "name": "系統啟動",
+        "type": "system",
+        "completed_at": "2026-02-27T04:00:00Z",
+        "duration": 12
+      }
+    ]
+  },
+  "workers": {
+    "supervisor": {
+      "role": "supervisor",
+      "status": "active",
+      "last_activity": "2026-02-27T04:30:00Z"
+    },
+    "frontdesk": {
+      "role": "frontdesk",
+      "status": "idle",
+      "last_activity": "2026-02-27T04:15:00Z"
+    },
+    "dev": {
+      "role": "dev",
+      "status": "busy",
+      "last_activity": "2026-02-27T04:32:00Z"
+    },
+    "auto": {
+      "role": "auto",
+      "status": "idle",
+      "last_activity": "2026-02-27T03:45:00Z"
+    },
+    "editor": {
+      "role": "editor",
+      "status": "idle",
+      "last_activity": "2026-02-27T02:30:00Z"
+    },
+    "research": {
+      "role": "research",
+      "status": "idle",
+      "last_activity": "2026-02-27T01:00:00Z"
+    },
+    "opsdata": {
+      "role": "opsdata",
+      "status": "active",
+      "last_activity": "2026-02-27T04:28:00Z"
+    },
+    "sre": {
+      "role": "sre",
+      "status": "idle",
+      "last_activity": "2026-02-27T00:00:00Z"
+    }
+  },
+  "last_update": "2026-02-27T04:32:15Z"
+}

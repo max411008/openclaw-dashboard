@@ -1,30 +1,54 @@
 {
   "gateway": {
-    "status": "offline",
-    "port": "-",
+    "status": "online",
+    "port": "18889",
     "process": "openclaw-gateway",
-    "version": "-",
-    "uptime": 0
+    "version": "2026.2.25",
+    "uptime": 7200
   },
   "resources": {
-    "concurrent_tools": 0,
+    "concurrent_tools": 1,
     "max_concurrent": 2,
-    "active_sessions": 1
+    "active_sessions": 2
   },
   "tasks": {
-    "pending": [],
-    "running": [],
-    "completed": []
+    "pending": [
+      {
+        "id": "task-001",
+        "title": "優化 Dashboard UI",
+        "agent": "dev",
+        "priority": "high"
+      }
+    ],
+    "running": [
+      {
+        "id": "task-002", 
+        "title": "監控系統狀態",
+        "agent": "supervisor",
+        "started_at": "2026-02-27T06:50:00Z"
+      }
+    ],
+    "completed": [
+      {
+        "id": "task-000",
+        "title": "系統初始化",
+        "completed_at": "2026-02-27T06:00:00Z"
+      }
+    ]
   },
   "workers": {
-    "supervisor": { "status": "idle", "last_activity": "2026-02-26T23:04:15Z" },
-    "frontdesk": { "status": "idle", "last_activity": "2026-02-26T23:04:15Z" },
-    "dev": { "status": "idle", "last_activity": "2026-02-26T23:04:15Z" },
-    "auto": { "status": "idle", "last_activity": "2026-02-26T23:04:15Z" },
-    "editor": { "status": "idle", "last_activity": "2026-02-26T23:04:15Z" },
-    "research": { "status": "idle", "last_activity": "2026-02-26T23:04:15Z" },
-    "opsdata": { "status": "idle", "last_activity": "2026-02-26T23:04:15Z" },
-    "sre": { "status": "idle", "last_activity": "2026-02-26T23:04:15Z" }
+    "supervisor": { "status": "active", "last_activity": "2026-02-27T06:55:00Z" },
+    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T06:40:00Z" },
+    "dev": { "status": "busy", "last_activity": "2026-02-27T06:55:00Z" },
+    "auto": { "status": "idle", "last_activity": "2026-02-27T06:30:00Z" },
+    "editor": { "status": "idle", "last_activity": "2026-02-27T06:20:00Z" },
+    "research": { "status": "idle", "last_activity": "2026-02-27T05:00:00Z" },
+    "opsdata": { "status": "active", "last_activity": "2026-02-27T06:50:00Z" },
+    "sre": { "status": "idle", "last_activity": "2026-02-27T00:00:00Z" }
   },
-  "last_update": "2026-02-26T23:04:15Z"
+  "system": {
+    "uptime": "2h 15m",
+    "last_update": "2026-02-27T06:56:00Z",
+    "version": "2.0"
+  }
 }

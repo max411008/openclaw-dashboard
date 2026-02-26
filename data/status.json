@@ -10,7 +10,6 @@
     "concurrent_tools": 0,
     "max_concurrent": 2,
     "active_sessions": 0
-1
   },
   "tasks": {
     "pending": [],
@@ -18,14 +17,14 @@
     "completed": []
   },
   "workers": {
-    "supervisor": { "status": "idle", "last_activity": "2026-02-26T21:13:51Z" },
-    "frontdesk": { "status": "idle", "last_activity": "2026-02-26T21:13:51Z" },
-    "dev": { "status": "idle", "last_activity": "2026-02-26T21:13:51Z" },
-    "auto": { "status": "idle", "last_activity": "2026-02-26T21:13:51Z" },
-    "editor": { "status": "idle", "last_activity": "2026-02-26T21:13:51Z" },
-    "research": { "status": "idle", "last_activity": "2026-02-26T21:13:51Z" },
-    "opsdata": { "status": "idle", "last_activity": "2026-02-26T21:13:51Z" },
-    "sre": { "status": "idle", "last_activity": "2026-02-26T21:13:51Z" }
+    "supervisor": { "status": "idle", "last_activity": "2026-02-26T21:14:13Z" },
+    "frontdesk": { "status": "idle", "last_activity": "2026-02-26T21:14:13Z" },
+    "dev": { "status": "idle", "last_activity": "2026-02-26T21:14:13Z" },
+    "auto": { "status": "idle", "last_activity": "2026-02-26T21:14:13Z" },
+    "editor": { "status": "idle", "last_activity": "2026-02-26T21:14:13Z" },
+    "research": { "status": "idle", "last_activity": "2026-02-26T21:14:13Z" },
+    "opsdata": { "status": "idle", "last_activity": "2026-02-26T21:14:13Z" },
+    "sre": { "status": "idle", "last_activity": "2026-02-26T21:14:13Z" }
   },
-  "last_update": "2026-02-26T21:13:51Z"
+  "last_update": "2026-02-26T21:14:13Z"
 }

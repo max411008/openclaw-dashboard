@@ -473,8 +473,8 @@
                     </div>
                     <span>30s</span>
                 </div>
-                <button class="btn btn-primary" id="refreshBtn" onclick="loadData()">
-                    🔄 重新整理
+                <button class="btn btn-primary" id="refreshBtn" onclick="forceRefresh()">
+                    🔄 強制重新整理
                 </button>
                 <button class="btn btn-secondary" id="autoRefreshBtn" onclick="toggleAutoRefresh()">
                     ⏸️ 暫停
@@ -741,7 +741,7 @@
         }
 
         // Load data from JSON
-        async function loadData() {
+        async function loadData(force = false, timestamp = null) {
             const refreshBtn = document.getElementById('refreshBtn');
             const errorContainer = document.getElementById('errorContainer');
             
@@ -750,7 +750,13 @@
             errorContainer.style.display = 'none';
 
             try {
-                const response = await fetch('data/status.json?t=' + Date.now());
+                const cacheBuster = force ? `&_=${timestamp || Date.now()}` : '';
+                const response = await fetch(`data/status.json?t=${Date.now()}${cacheBuster}`, {
+                    cache: 'no-store',
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                });
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
@@ -765,6 +771,13 @@
                 refreshBtn.disabled = false;
                 refreshBtn.innerHTML = '🔄 重新整理';
             }
+        }
+
+        // Force refresh with cache-busting
+        function forceRefresh() {
+            // Add cache-busting parameter to all resources
+            const timestamp = Date.now() + Math.random();
+            loadData(true, timestamp);
         }
 
         // Update dashboard with data

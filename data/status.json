@@ -17,14 +17,14 @@
     "completed": []
   },
   "workers": {
-    "supervisor": { "status": "idle", "last_activity": "2026-02-27T10:06:59Z" },
-    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T10:06:59Z" },
-    "dev": { "status": "idle", "last_activity": "2026-02-27T10:06:59Z" },
-    "auto": { "status": "idle", "last_activity": "2026-02-27T10:06:59Z" },
-    "editor": { "status": "idle", "last_activity": "2026-02-27T10:06:59Z" },
-    "research": { "status": "idle", "last_activity": "2026-02-27T10:06:59Z" },
-    "opsdata": { "status": "idle", "last_activity": "2026-02-27T10:06:59Z" },
-    "sre": { "status": "idle", "last_activity": "2026-02-27T10:06:59Z" }
+    "supervisor": { "status": "idle", "last_activity": "2026-02-27T10:12:00Z" },
+    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T10:12:00Z" },
+    "dev": { "status": "idle", "last_activity": "2026-02-27T10:12:00Z" },
+    "auto": { "status": "idle", "last_activity": "2026-02-27T10:12:00Z" },
+    "editor": { "status": "idle", "last_activity": "2026-02-27T10:12:00Z" },
+    "research": { "status": "idle", "last_activity": "2026-02-27T10:12:00Z" },
+    "opsdata": { "status": "idle", "last_activity": "2026-02-27T10:12:00Z" },
+    "sre": { "status": "idle", "last_activity": "2026-02-27T10:12:00Z" }
   },
-  "last_update": "2026-02-27T10:06:59Z"
+  "last_update": "2026-02-27T10:12:00Z"
 }

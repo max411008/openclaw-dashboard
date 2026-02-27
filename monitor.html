@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 OpenClaw 監控中心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #888; margin-top: 10px; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: #1a1a25;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #333;
+        }
+        .card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        .status-online { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .status-offline { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .status-warning { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        .metric:last-child { border-bottom: none; }
+        .metric-label { color: #888; }
+        .metric-value { font-family: monospace; }
+        
+        .research-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #12121a;
+            border-radius: 12px;
+        }
+        .research-section h3 {
+            color: #6366f1;
+            margin-bottom: 15px;
+        }
+        .tool-card {
+            background: #1a1a25;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #6366f1;
+        }
+        .tool-card h4 { margin-bottom: 10px; }
+        .tool-card p { color: #888; font-size: 0.9rem; }
+        .risk-high { border-left-color: #ef4444; }
+        .risk-medium { border-left-color: #f59e0b; }
+        .risk-low { border-left-color: #22c55e; }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            margin-top: 30px;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 OpenClaw 監控中心</h1>
+            <p class="subtitle">量化交易工具監控與研究</p>
+        </header>
+        
+        <div class="grid">
+            <!-- 系統健康 -->
+            <div class="card">
+                <h2>💻 系統健康</h2>
+                <div class="metric">
+                    <span class="metric-label">Dashboard</span>
+                    <span class="status status-online">● 運行中</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Tailscale</span>
+                    <span class="status status-online">● 已連線</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">監控系統</span>
+                    <span class="status status-online">● 啟用</span>
+                </div>
+            </div>
+            
+            <!-- IBKR 狀態 -->
+            <div class="card">
+                <h2>🏦 IBKR 連線</h2>
+                <div class="metric">
+                    <span class="metric-label">Gateway</span>
+                    <span class="status status-offline">● 未配置</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">API 狀態</span>
+                    <span class="metric-value">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">最後檢查</span>
+                    <span class="metric-value">-</span>
+                </div>
+            </div>
+            
+            <!-- 成本追蹤 -->
+            <div class="card">
+                <h2>💰 成本追蹤</h2>
+                <div class="metric">
+                    <span class="metric-label">今日花費</span>
+                    <span class="metric-value">$0.00</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">月度預算</span>
+                    <span class="metric-value">$5.00</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">使用率</span>
+                    <span class="metric-value">0%</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 研究報告 -->
+        <div class="research-section">
+            <h3>📊 量化工具研究報告</h3>
+            
+            <div class="tool-card risk-low">
+                <h4>🏦 ibkrclaw - 盈透證券整合</h4>
+                <p><strong>風險：</strong>🟢 低（只讀模式） | <strong>用途：</strong>股票持倉監控</p>
+                <p>透過 OpenClaw 查詢 IBKR 帳戶持倉、餘額、實時行情。僅查詢不交易，最安全。</p>
+            </div>
+            
+            <div class="tool-card risk-high">
+                <h4>💰 awesome-OpenClaw-Money-Maker</h4>
+                <p><strong>風險：</strong>🔴 高（資金投入） | <strong>用途：</strong>AI 自動收入</p>
+                <p>使用 ClawRouter 連接 41+ LLM，節省 92% API 成本。需投入 USDC，有虧損風險。</p>
+            </div>
+            
+            <div class="tool-card risk-high">
+                <h4>🤖 BankrBot/skills</h4>
+                <p><strong>風險：</strong>🔴 高（加密貨幣交易） | <strong>用途：</strong>交易訊號</p>
+                <p>包含 bankr-signals、clanker 等加密貨幣交易技能。需評估市場風險。</p>
+            </div>
+            
+            <h3 style="margin-top: 30px;">📋 推薦策略</h3>
+            <p style="color: #888; line-height: 1.8;">
+                <strong>Phase 1:</strong> 先測試 ibkrclaw（最安全，只讀查詢）<br>
+                <strong>Phase 2:</strong> 小額測試 ClawRouter（$10-20 USDC）<br>
+                <strong>Phase 3:</strong> 評估 ROI，決定是否擴大投入<br><br>
+                <em>⚠️ 重要：所有高風險工具都需謹慎評估，不要投入無法承擔損失的資金。</em>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>OpenClaw 監控系統 v1.0 | 資料更新：每 5 分鐘</p>
+            <p style="margin-top: 10px;">
+                <a href="https://max411008.github.io/openclaw-dashboard" style="color: #6366f1;">📊 查看舊版 Dashboard</a> | 
+                <a href="http://100.108.228.50:5173" style="color: #6366f1;">🚀 新版 ClawDashboard</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

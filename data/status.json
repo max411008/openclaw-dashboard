@@ -1,10 +1,10 @@
 {
   "gateway": {
-    "status": "online",
-    "port": "18889",
+    "status": "offline",
+    "port": "-",
     "process": "openclaw-gateway",
-    "version": "2026.2.25",
-    "uptime": 22651
+    "version": "-",
+    "uptime": 0
   },
   "resources": {
     "concurrent_tools": 0,
@@ -13,18 +13,18 @@
   },
   "tasks": {
     "pending": [],
-    "running": [{"id": "agent:main:main", "name": "Main Session (kimi-k2.5)"} ],
+    "running": [],
     "completed": []
   },
   "workers": {
-    "supervisor": { "status": "idle", "last_activity": "2026-02-27T13:07:55Z" },
-    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T13:07:55Z" },
-    "dev": { "status": "idle", "last_activity": "2026-02-27T13:07:55Z" },
-    "auto": { "status": "idle", "last_activity": "2026-02-27T13:07:55Z" },
-    "editor": { "status": "idle", "last_activity": "2026-02-27T13:07:55Z" },
-    "research": { "status": "idle", "last_activity": "2026-02-27T13:07:55Z" },
-    "opsdata": { "status": "idle", "last_activity": "2026-02-27T13:07:55Z" },
-    "sre": { "status": "idle", "last_activity": "2026-02-27T13:07:55Z" }
+    "supervisor": { "status": "idle", "last_activity": "2026-02-27T13:08:24Z" },
+    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T13:08:24Z" },
+    "dev": { "status": "idle", "last_activity": "2026-02-27T13:08:24Z" },
+    "auto": { "status": "idle", "last_activity": "2026-02-27T13:08:24Z" },
+    "editor": { "status": "idle", "last_activity": "2026-02-27T13:08:24Z" },
+    "research": { "status": "idle", "last_activity": "2026-02-27T13:08:24Z" },
+    "opsdata": { "status": "idle", "last_activity": "2026-02-27T13:08:24Z" },
+    "sre": { "status": "idle", "last_activity": "2026-02-27T13:08:24Z" }
   },
-  "last_update": "2026-02-27T13:07:55Z"
+  "last_update": "2026-02-27T13:08:24Z"
 }

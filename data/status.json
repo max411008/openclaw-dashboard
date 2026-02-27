@@ -17,14 +17,14 @@
     "completed": []
   },
   "workers": {
-    "supervisor": { "status": "idle", "last_activity": "2026-02-27T08:16:30Z" },
-    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T08:16:30Z" },
-    "dev": { "status": "idle", "last_activity": "2026-02-27T08:16:30Z" },
-    "auto": { "status": "idle", "last_activity": "2026-02-27T08:16:30Z" },
-    "editor": { "status": "idle", "last_activity": "2026-02-27T08:16:30Z" },
-    "research": { "status": "idle", "last_activity": "2026-02-27T08:16:30Z" },
-    "opsdata": { "status": "idle", "last_activity": "2026-02-27T08:16:30Z" },
-    "sre": { "status": "idle", "last_activity": "2026-02-27T08:16:30Z" }
+    "supervisor": { "status": "idle", "last_activity": "2026-02-27T08:21:32Z" },
+    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T08:21:32Z" },
+    "dev": { "status": "idle", "last_activity": "2026-02-27T08:21:32Z" },
+    "auto": { "status": "idle", "last_activity": "2026-02-27T08:21:32Z" },
+    "editor": { "status": "idle", "last_activity": "2026-02-27T08:21:32Z" },
+    "research": { "status": "idle", "last_activity": "2026-02-27T08:21:32Z" },
+    "opsdata": { "status": "idle", "last_activity": "2026-02-27T08:21:32Z" },
+    "sre": { "status": "idle", "last_activity": "2026-02-27T08:21:32Z" }
   },
-  "last_update": "2026-02-27T08:16:30Z"
+  "last_update": "2026-02-27T08:21:32Z"
 }

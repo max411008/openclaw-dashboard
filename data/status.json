@@ -4,7 +4,7 @@
     "port": "18889",
     "process": "openclaw-gateway",
     "version": "2026.2.25",
-    "uptime": 26128
+    "uptime": 31413
   },
   "resources": {
     "concurrent_tools": 0,
@@ -13,18 +13,19 @@
   },
   "tasks": {
     "pending": [],
-    "running": [{"id": "task-20260227-002", "name": "建立一個離線可用的監控 Dashboard 網頁", "type": "開發", "assignee": "@Dev"}],
-    "completed": []
+    "running": [{"id": "task-20260227-002", "name": "建立一個離線可用的監控 Dashboard 網頁，可在非 WiFi 環境查看系統狀態", "type": "開發", "assignee": "@Dev"}],
+    "completed": [],
+    "all": [{"id": "task-20260227-002", "name": "建立一個離線可用的監控 Dashboard 網頁，可在非 WiFi 環境查看系統狀態", "type": "開發", "assignee": "@Dev", "status": "running", "timeLimit": "≤ 30 分鐘", "createdAt": "2026-02-27T04:32:18Z", "totalDoD": 9, "completedDoD": 3}]
   },
   "workers": {
-    "supervisor": { "status": "idle", "last_activity": "2026-02-27T14:05:53Z" },
-    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T14:05:53Z" },
-    "dev": { "status": "idle", "last_activity": "2026-02-27T14:05:53Z" },
-    "auto": { "status": "idle", "last_activity": "2026-02-27T14:05:53Z" },
-    "editor": { "status": "idle", "last_activity": "2026-02-27T14:05:53Z" },
-    "research": { "status": "idle", "last_activity": "2026-02-27T14:05:53Z" },
-    "opsdata": { "status": "idle", "last_activity": "2026-02-27T14:05:53Z" },
-    "sre": { "status": "idle", "last_activity": "2026-02-27T14:05:53Z" }
+    "supervisor": { "status": "idle", "last_activity": "2026-02-27T15:33:57Z" },
+    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T15:33:57Z" },
+    "dev": { "status": "idle", "last_activity": "2026-02-27T15:33:57Z" },
+    "auto": { "status": "idle", "last_activity": "2026-02-27T15:33:57Z" },
+    "editor": { "status": "idle", "last_activity": "2026-02-27T15:33:57Z" },
+    "research": { "status": "idle", "last_activity": "2026-02-27T15:33:57Z" },
+    "opsdata": { "status": "idle", "last_activity": "2026-02-27T15:33:57Z" },
+    "sre": { "status": "idle", "last_activity": "2026-02-27T15:33:57Z" }
   },
-  "last_update": "2026-02-27T14:05:53Z"
+  "last_update": "2026-02-27T15:33:57Z"
 }

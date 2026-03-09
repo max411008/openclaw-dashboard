@@ -13,19 +13,62 @@
   },
   "tasks": {
     "pending": [],
-    "running": [{"id": "task-20260227-002", "name": "建立一個離線可用的監控 Dashboard 網頁，可在非 WiFi 環境查看系統狀態", "type": "開發", "assignee": "@Dev"}],
+    "running": [
+      {
+        "id": "task-20260227-002",
+        "name": "建立一個離線可用的監控 Dashboard 網頁，可在非 WiFi 環境查看系統狀態",
+        "type": "開發",
+        "assignee": "@Dev"
+      }
+    ],
     "completed": [],
-    "all": [{"id": "task-20260227-002", "name": "建立一個離線可用的監控 Dashboard 網頁，可在非 WiFi 環境查看系統狀態", "type": "開發", "assignee": "@Dev", "status": "running", "timeLimit": "≤ 30 分鐘", "createdAt": "2026-02-27T04:32:18Z", "totalDoD": 9, "completedDoD": 3}]
+    "all": [
+      {
+        "id": "task-20260227-002",
+        "name": "建立一個離線可用的監控 Dashboard 網頁，可在非 WiFi 環境查看系統狀態",
+        "type": "開發",
+        "assignee": "@Dev",
+        "status": "running",
+        "timeLimit": "≤ 30 分鐘",
+        "createdAt": "2026-02-27T04:32:18Z",
+        "totalDoD": 9,
+        "completedDoD": 3
+      }
+    ]
   },
   "workers": {
-    "supervisor": { "status": "idle", "last_activity": "2026-02-27T15:40:11Z" },
-    "frontdesk": { "status": "idle", "last_activity": "2026-02-27T15:40:11Z" },
-    "dev": { "status": "idle", "last_activity": "2026-02-27T15:40:11Z" },
-    "auto": { "status": "idle", "last_activity": "2026-02-27T15:40:11Z" },
-    "editor": { "status": "idle", "last_activity": "2026-02-27T15:40:11Z" },
-    "research": { "status": "idle", "last_activity": "2026-02-27T15:40:11Z" },
-    "opsdata": { "status": "idle", "last_activity": "2026-02-27T15:40:11Z" },
-    "sre": { "status": "idle", "last_activity": "2026-02-27T15:40:11Z" }
+    "supervisor": {
+      "status": "idle",
+      "last_activity": "2026-02-27T15:40:11Z"
+    },
+    "frontdesk": {
+      "status": "idle",
+      "last_activity": "2026-02-27T15:40:11Z"
+    },
+    "dev": {
+      "status": "idle",
+      "last_activity": "2026-02-27T15:40:11Z"
+    },
+    "auto": {
+      "status": "idle",
+      "last_activity": "2026-02-27T15:40:11Z"
+    },
+    "editor": {
+      "status": "idle",
+      "last_activity": "2026-02-27T15:40:11Z"
+    },
+    "research": {
+      "status": "idle",
+      "last_activity": "2026-02-27T15:40:11Z"
+    },
+    "opsdata": {
+      "status": "idle",
+      "last_activity": "2026-02-27T15:40:11Z"
+    },
+    "sre": {
+      "status": "idle",
+      "last_activity": "2026-02-27T15:40:11Z"
+    }
   },
-  "last_update": "2026-02-27T15:40:11Z"
+  "last_update": "2026-03-09T10:50:29Z"
 }

@@ -3,12 +3,13 @@ name: 📊 Update Dashboard Status
 on:
   # 允許手動觸發
   workflow_dispatch:
-  
-  # 定時執行（每 10 分鐘檢查一次）
-  # 注意：這個 workflow 在 GitHub 伺服器上執行，無法讀取你的 Mac 狀態
-  # 主要作為備援，確保網站至少會更新 timestamp
+
+  # 定時執行（每小時一次，避免通知轟炸）
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '0 * * * *'
+
+permissions:
+  contents: write
 
 jobs:
   update:
@@ -16,7 +17,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Update timestamp
       run: |
